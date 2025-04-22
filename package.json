@@ -1,5 +1,6 @@
 {
   "name": "yomi",
+  "description": "将棋のCSA形式の棋譜を読み込み、指し手を一手ずつ追いながら観戦できるWebアプリです。シンプルなUIで、気軽に棋譜再生を楽しめます。",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -30,6 +31,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
+    "sass": "^1.87.0",
     "typescript": "^5"
   }
 }
