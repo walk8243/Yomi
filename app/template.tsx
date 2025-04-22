@@ -1,6 +1,6 @@
-import styles from './page.module.css';
+import styles from './page.module.scss';
 
-export default function Template({ children }: { children: React.ReactNode }) {
+export default function Template({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
