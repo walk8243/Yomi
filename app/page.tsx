@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Board from './board';
+import Board from './_shogi/board';
 import styles from "./page.module.scss";
 
 export default function Home() {
