@@ -1,0 +1,25 @@
+.container {
+	display: flex;
+	justify-content: center;
+	column-gap: 10px;
+}
+
+.list {
+	background-color: #f0f0f0;
+	width: 100px;
+}
+
+.item {
+	list-style: none;
+
+	button {
+		width: 100%;
+		color: #111;
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		padding: 0;
+		margin: 0;
+		line-height: 1;
+	}
+}

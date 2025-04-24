@@ -30,7 +30,7 @@ export type Piece = {
 	type: PieceType;
 	player: Player;
 };
-export type Board = (Piece | null)[];
+export type BoardData = (Piece | null)[];
 export type Hands = {
 	before: Spot;
 	after: Spot;
@@ -38,7 +38,7 @@ export type Hands = {
 };
 
 export interface Situation {
-	board: Board;
-	hands: Hands;
+	board: BoardData;
+	hands: Hands | null;
 }
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Board from './_shogi/board';
+import Kif from './_shogi/kif';
 import styles from "./page.module.scss";
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
         priority
       />
 
-      <Board />
+      <Kif />
     </>
   );
 }

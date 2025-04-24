@@ -1,6 +1,6 @@
-import { Board, firstPlayer, secondPlayer, fu, gin, gyoku, hisha, kaku, keima, kin, kyosha } from './variable';
+import { BoardData, firstPlayer, secondPlayer, fu, gin, gyoku, hisha, kaku, keima, kin, kyosha } from './variable';
 
-export const initial = (): Board => ([
+export const initial = (): BoardData => ([
 	// 1段目（後手の後陣）
 	{ type: kyosha, player: secondPlayer }, // 9一 香車
 	{ type: keima, player: secondPlayer }, // 8一 桂馬
