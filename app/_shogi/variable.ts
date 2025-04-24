@@ -21,7 +21,7 @@ export const ryu = Symbol('龍');
 export type PieceType = typeof fu | typeof kyosha | typeof keima | typeof gin | typeof kin | typeof gyoku | typeof hisha | typeof kaku
  | typeof tokin | typeof narikyo | typeof narikei | typeof narikin | typeof uma | typeof ryu;
 
-type Spot = {
+export type Spot = {
 	x: number;
 	y: number;
 };
@@ -32,9 +32,10 @@ export type Piece = {
 };
 export type BoardData = (Piece | null)[];
 export type Hands = {
+	turn: Player;
 	before: Spot;
 	after: Spot;
-	turn: Player;
+	piece: PieceType;
 };
 
 export interface Situation {

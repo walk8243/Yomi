@@ -1,12 +1,16 @@
 .container {
 	display: flex;
-	justify-content: center;
+	height: 500px;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: flex-start;
 	column-gap: 10px;
 }
 
 .list {
 	background-color: #f0f0f0;
 	width: 100px;
+	overflow-y: auto;
 }
 
 .item {
