@@ -1,23 +1,34 @@
+$board-color: #f5deb3;
+$board-border-color: #5c452b;
+
 .board {
 	height: 100%;
-	background: #f5deb3;
+	background: $board-color;
 	padding: 16px;
 
 	&__inner {
 		display: grid;
 		grid-template-columns: repeat(9, 1fr);
 		grid-template-rows: repeat(9, 1fr);
-		border: 1px solid #5c452b;
+		border: 1px solid $board-border-color;
 	}
 
-	&__space {
+	&__square {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		width: 50px;
 		height: 50px;
-		border: 1px solid #5c452b;
+		border: 1px solid $board-border-color;
 	}
+}
+
+.stand {
+	display: flex;
+	align-content: flex-start;
+	width: 200px;
+	height: 200px;
+	background-color: $board-color;
 }
 
 .piece {
@@ -33,5 +44,53 @@
 
 	&--second {
 		transform: rotate(180deg);
+	}
+}
+
+.container {
+	display: flex;
+	column-gap: 8px;
+
+	&__first, &__second {
+		display: flex;
+		row-gap: 4px;
+	}
+	&__first {
+		flex-direction: column-reverse;
+
+		.player {
+			&::before {
+				content: '☗';
+			}
+		}
+		.stand {
+			flex-direction: row;
+			align-items: flex-start;
+			flex-wrap: wrap;
+		}
+	}
+	&__second {
+		flex-direction: column;
+
+		.player {
+			&::before {
+				content: '☖';
+			}
+		}
+		.stand {
+			flex-direction: row-reverse;
+			align-items: flex-end;
+			flex-wrap: wrap-reverse;
+		}
+	}
+}
+
+.player {
+	color: #000;
+	background-color: #f0f0f0;
+	border: 1px solid #000;
+
+	&::before {
+		margin-right: 4px;
 	}
 }
