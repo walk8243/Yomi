@@ -29,6 +29,11 @@ a.secondary {
   min-width: 158px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .footer {
   grid-row-start: 3;
   display: flex;
