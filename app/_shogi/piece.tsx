@@ -1,5 +1,5 @@
 import styles from './board.module.scss';
-import { firstPlayer, fu, gin, gyoku, hisha, kaku, keima, kin, kyosha, narikei, narikin, narikyo, Piece, PieceType, ryu, tokin, uma } from './variable';
+import { firstPlayer, fu, gin, gyoku, hisha, kaku, keima, kin, kyosha, narikei, narigin, narikyo, Piece, PieceType, ryu, tokin, uma } from './variable';
 
 export default function PieceDom({ piece: { type, player } }: Readonly<{ piece: Piece }>) {
   const pieceClass = styles.piece;
@@ -31,7 +31,7 @@ const pieceText = (type: PieceType) => {
       return '成香';
     case narikei:
       return '成桂';
-    case narikin:
+    case narigin:
       return '成銀';
     case uma:
       return '馬';

@@ -1,16 +1,10 @@
 import { initial } from "./situation";
-import { firstPlayer, fu, gin, gyoku, keima, kaku, kin, PieceType, secondPlayer, Situation, hisha, tokin, narikyo, narikei, uma, kyosha, ryu, Hands, Spot } from "./variable";
+import { firstPlayer, fu, gin, gyoku, keima, kaku, kin, PieceType, secondPlayer, Situation, hisha, tokin, narikyo, narikei, uma, kyosha, ryu, Hands, Spot, narigin } from "./variable";
 
-const baseUrl = 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST/';
 export const csaUrl = 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST//2025/04/23/wdoor+floodgate-300-10F+suisho5-1M+Frieren+20250423160002.csa';
 
 export const parseCsa = async (url: string): Promise<Situation[]> => {
-	const response = await fetch(url.replace(baseUrl, '/kif'), {
-		mode: 'no-cors',
-		headers: {
-			'accept': 'text/plain',
-		}
-	});
+	const response = await fetch(`/kif/floodgate?url=${encodeURIComponent(url)}`);
 	const text = await response.text();
 
 	return parseCsaText(text);
@@ -81,6 +75,7 @@ const parsePieceType = (text: string): PieceType => {
 		case 'TO': return tokin;
 		case 'NY': return narikyo;
 		case 'NK': return narikei;
+		case 'NG': return narigin;
 		case 'UM': return uma;
 		case 'RY': return ryu;
 		default: throw new Error(`Unknown piece type: ${text}`);

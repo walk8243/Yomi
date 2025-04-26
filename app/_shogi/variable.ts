@@ -14,12 +14,12 @@ export const kaku = Symbol('角');
 export const tokin = Symbol('と金');
 export const narikyo = Symbol('成香');
 export const narikei = Symbol('成桂');
-export const narikin = Symbol('成銀');
+export const narigin = Symbol('成銀');
 export const uma = Symbol('馬');
 export const ryu = Symbol('龍');
 
 export type PieceType = typeof fu | typeof kyosha | typeof keima | typeof gin | typeof kin | typeof gyoku | typeof hisha | typeof kaku
- | typeof tokin | typeof narikyo | typeof narikei | typeof narikin | typeof uma | typeof ryu;
+ | typeof tokin | typeof narikyo | typeof narikei | typeof narigin | typeof uma | typeof ryu;
 
 export type Spot = {
 	x: number;
