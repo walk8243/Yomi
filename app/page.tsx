@@ -2,17 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Kif from './_shogi/kif';
-import { initial } from './_shogi/situation';
+import Gui from './_shogi/gui';
+import { initial } from './_shogi/utils/situation';
 import styles from "./page.module.scss";
-import { parseCsa, csaUrl } from "./_shogi/utils";
-import { Situation } from "./_shogi/variable";
+import { get, csaUrl } from "./_shogi/kif/floodgate";
+import { Situation } from "./_shogi/utils/variable";
 
 export default function Home() {
   const [kif, setKif] = useState<Situation[]>([{board: initial(), hands: null}]);
   useEffect(() => {
-    parseCsa(csaUrl)
-      .then(situations => { console.log(situations); return situations; })
+    get(csaUrl)
       .then(setKif);
   }, []);
 
@@ -27,7 +26,7 @@ export default function Home() {
         priority
       />
 
-      <Kif kif={kif} />
+      <Gui kif={kif} />
     </>
   );
 }

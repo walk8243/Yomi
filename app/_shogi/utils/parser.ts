@@ -1,16 +1,8 @@
 import { initial } from "./situation";
 import { firstPlayer, fu, gin, gyoku, keima, kaku, kin, PieceType, secondPlayer, Situation, hisha, tokin, narikyo, narikei, uma, kyosha, ryu, Hands, Spot, narigin } from "./variable";
 
-export const csaUrl = 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST//2025/04/23/wdoor+floodgate-300-10F+suisho5-1M+Frieren+20250423160002.csa';
-
-export const parseCsa = async (url: string): Promise<Situation[]> => {
-	const response = await fetch(`/kif/floodgate?url=${encodeURIComponent(url)}`);
-	const text = await response.text();
-
-	return parseCsaText(text);
-}
-
-const parseCsaText = (text: string): Situation[] => {
+const moverRegex = /^([+-])(\d{2})(\d{2})([A-Z]{2})$/;
+export const parseCsa = (text: string): Situation[] => {
 	const lines = text.split(/\r?\n/);
 	const board = initial();
 	const situations: Situation[] = [
@@ -24,7 +16,7 @@ const parseCsaText = (text: string): Situation[] => {
 		const trimmed = line.trim();
 
 		// 指し手（+7776FU など）だけ対象
-		const match = trimmed.match(/^([+-])(\d{2})(\d{2})([A-Z]{2})$/);
+		const match = moverRegex.exec(trimmed);
 		if (!match) {
 			continue;
 		}
@@ -61,6 +53,14 @@ const parseCsaText = (text: string): Situation[] => {
 	return situations;
 }
 
+export const printSituationHands = (hands: Hands | null): string => {
+	if (!hands) {
+		return '初期盤面';
+	}
+
+	return `${symbolTurnTypes[hands.turn]}${fullWidthDigits[hands.after.x]}${kanjiDigits[hands.after.y]}${kanjiPieceTypes[hands.piece]}`;
+}
+
 const calcIndex = ({ x, y }: Spot): number => 9 * (y - 1) + (9 - x);
 const parsePieceType = (text: string): PieceType => {
 	switch(text) {
@@ -81,3 +81,26 @@ const parsePieceType = (text: string): PieceType => {
 		default: throw new Error(`Unknown piece type: ${text}`);
 	}
 }
+
+const symbolTurnTypes = {
+	[firstPlayer]: '☗',
+	[secondPlayer]: '☖',
+}
+const fullWidthDigits = ["０", "１", "２", "３", "４", "５", "６", "７", "８", "９"];
+const kanjiDigits = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+const kanjiPieceTypes = {
+	[fu]: "歩",
+	[kyosha]: "香",
+	[keima]: "桂",
+	[gin]: "銀",
+	[kin]: "金",
+	[kaku]: "角",
+	[hisha]: "飛",
+	[tokin]: "と",
+	[narikyo]: "成香",
+	[narikei]: "成桂",
+	[narigin]: "成銀",
+	[uma]: "馬",
+	[ryu]: "龍",
+	[gyoku]: "玉",
+};

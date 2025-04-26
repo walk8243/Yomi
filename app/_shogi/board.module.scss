@@ -25,9 +25,11 @@
 	height: 40px;
 	color: #000;
 	background-color: #d2b48c;
-	font-size: 20px;
-	line-height: 40px;
+	font-size: 16px;
+	line-height: 36px;
 	text-align: center;
+	writing-mode: vertical-lr;
+	text-orientation: upright;
 
 	&--second {
 		transform: rotate(180deg);

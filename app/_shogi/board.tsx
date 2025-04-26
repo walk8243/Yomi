@@ -1,6 +1,6 @@
 import Piece from './piece';
 import styles from './board.module.scss';
-import { BoardData } from './variable';
+import { BoardData } from './utils/variable';
 
 export default function Board({ board }: Readonly<{ board: BoardData }>) {
   return (
