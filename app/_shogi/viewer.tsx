@@ -1,14 +1,14 @@
 import { useState } from "react";
 import Board from "./board";
 import { Situation } from "./utils/variable";
-import styles from "./gui.module.scss";
+import styles from "./viewer.module.scss";
 import { printSituationHands } from "./utils/parser";
 
-export default function Gui({ kif }: Readonly<{ kif: Situation[] }>) {
+export default function Viewer({ kif }: Readonly<{ kif: Situation[] }>) {
   const [selected, setSelected] = useState<number>(0);
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <Board board={kif[selected].board} capture={kif[selected].capture} />
       <ul className={styles.list}>
         {kif.map((situation, index) => (
@@ -21,6 +21,6 @@ export default function Gui({ kif }: Readonly<{ kif: Situation[] }>) {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   )
 }

@@ -1,0 +1,25 @@
+.container {
+	display: flex;
+	max-width: 800px;
+	column-gap: 4px;
+	margin: 0 auto;
+}
+
+.type {}
+
+.input {
+	flex-grow: 1;
+
+	& > input,
+	& > select {
+		width: 100%;
+	}
+}
+
+.action {
+	button {
+		padding-left: 4px;
+		padding-right: 4px;
+		cursor: pointer;
+	}
+}

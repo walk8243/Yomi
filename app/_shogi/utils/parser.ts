@@ -56,7 +56,6 @@ export const parseCsa = (text: string): Situation[] => {
 		};
 		if (hands.before.x === 0 && hands.before.y === 0) {
 			// 打ち手
-			console.log(situations.length, hands, capture[hands.turn]);
 			const tmp = capture[hands.turn].indexOf(hands.piece, -1);
 			if (tmp !== -1) {
 				capture[hands.turn].splice(tmp, 1);

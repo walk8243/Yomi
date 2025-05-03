@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import Gui from './_shogi/gui';
+import { useEffect, useReducer, useState } from "react";
+import Input, { InputDataType } from "./_shogi/input";
+import Viewer from './_shogi/viewer';
 import { initial } from './_shogi/utils/situation';
-import { get, csaUrl } from "./_shogi/kif/floodgate";
+import { get as getFloodgate } from "./_shogi/kif/floodgate";
+import { get as getYomi } from "./_shogi/kif/local";
 import { firstPlayer, secondPlayer, Situation } from "./_shogi/utils/variable";
 
 export default function Home() {
@@ -11,12 +13,26 @@ export default function Home() {
     [firstPlayer]: [],
     [secondPlayer]: [],
   }}]);
+  const [data, dispatch] = useReducer<InputDataType | null, [InputDataType]>((_prev, type) => {
+    return type;
+  }, null);
   useEffect(() => {
-    get(csaUrl)
-      .then(setKif);
-  }, []);
+    if (!data) return;
+    if (data.type === 'floodgate') {
+      getFloodgate(data.url)
+        .then(setKif)
+        .catch(console.error);
+    }
+    if (data.type === 'yomi') {
+      getYomi(data.id)
+        .then(setKif);
+    }
+  }, [data]);
 
   return (
-    <Gui kif={kif} />
+    <>
+      <Input dispatch={dispatch} />
+      <Viewer kif={kif} />
+    </>
   );
 }
