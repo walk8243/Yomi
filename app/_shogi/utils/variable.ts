@@ -1,7 +1,7 @@
-export const firstPlayer = Symbol('先手');
-export const secondPlayer = Symbol('後手');
+export const blackPlayer = Symbol('先手');
+export const whitePlayer = Symbol('後手');
 
-export type Player = typeof firstPlayer | typeof secondPlayer;
+export type Player = typeof blackPlayer | typeof whitePlayer;
 
 export const fu = Symbol('歩');
 export const kyosha = Symbol('香');
@@ -38,13 +38,20 @@ export type Hands = {
 	piece: PieceType;
 };
 export type Capture = {
-	[firstPlayer]: PieceType[];
-	[secondPlayer]: PieceType[];
+	[blackPlayer]: PieceType[];
+	[whitePlayer]: PieceType[];
 };
 
+export interface Info {
+	black: string;
+	white: string;
+}
 export interface Situation {
 	board: BoardData;
 	hands: Hands | null;
 	capture: Capture;
 }
-
+export interface Kif {
+	info: Info;
+	situations: Situation[];
+}

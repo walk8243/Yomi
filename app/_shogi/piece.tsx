@@ -1,9 +1,9 @@
 import styles from './board.module.scss';
-import { firstPlayer, fu, gin, gyoku, hisha, kaku, keima, kin, kyosha, narikei, narigin, narikyo, Piece, PieceType, ryu, tokin, uma } from './utils/variable';
+import { blackPlayer, fu, gin, gyoku, hisha, kaku, keima, kin, kyosha, narikei, narigin, narikyo, Piece, PieceType, ryu, tokin, uma } from './utils/variable';
 
 export default function PieceDom({ piece: { type, player } }: Readonly<{ piece: Piece }>) {
   const pieceClass = styles.piece;
-  const turnClass = styles[`piece--${player === firstPlayer ? 'first' : 'second'}`];
+  const turnClass = styles[`piece--${player === blackPlayer ? 'first' : 'second'}`];
   return <div className={`${pieceClass} ${turnClass}`}>
     {pieceText(type)}
   </div>;

@@ -6,13 +6,19 @@ import Viewer from './_shogi/viewer';
 import { initial } from './_shogi/utils/situation';
 import { get as getFloodgate } from "./_shogi/kif/floodgate";
 import { get as getYomi } from "./_shogi/kif/local";
-import { firstPlayer, secondPlayer, Situation } from "./_shogi/utils/variable";
+import { blackPlayer, whitePlayer, Kif } from "./_shogi/utils/variable";
 
 export default function Home() {
-  const [kif, setKif] = useState<Situation[]>([{board: initial(), hands: null, capture: {
-    [firstPlayer]: [],
-    [secondPlayer]: [],
-  }}]);
+  const [kif, setKif] = useState<Kif>({
+    info: {
+      black: '',
+      white: '',
+    },
+    situations: [{board: initial(), hands: null, capture: {
+      [blackPlayer]: [],
+      [whitePlayer]: [],
+    }}]
+  });
   const [data, dispatch] = useReducer<InputDataType | null, [InputDataType]>((_prev, type) => {
     return type;
   }, null);

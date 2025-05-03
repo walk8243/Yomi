@@ -1,7 +1,7 @@
 import { parseCsa } from '../utils/parser';
-import { Situation } from "../utils/variable";
+import { Kif } from "../utils/variable";
 
-export const get = async (name: string): Promise<Situation[]> => {
+export const get = async (name: string): Promise<Kif> => {
 	const response = await fetch(`/kif/local?filename=${name}`);
 	const text = await response.text();
 

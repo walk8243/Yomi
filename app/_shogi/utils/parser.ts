@@ -1,27 +1,39 @@
 import { initial } from "./situation";
-import { firstPlayer, fu, gin, gyoku, keima, kaku, kin, PieceType, secondPlayer, Situation, hisha, tokin, narikyo, narikei, uma, kyosha, ryu, Hands, Spot, narigin, Capture } from "./variable";
+import { blackPlayer, fu, gin, gyoku, keima, kaku, kin, PieceType, whitePlayer, Situation, hisha, tokin, narikyo, narikei, uma, kyosha, ryu, Hands, Spot, narigin, Capture, Kif, Info } from "./variable";
 
 const moverRegex = /^([+-])(\d{2})(\d{2})([A-Z]{2})$/;
-export const parseCsa = (text: string): Situation[] => {
+export const parseCsa = (text: string): Kif => {
 	const lines = text.split(/\r?\n/);
 	const board = initial();
 	const capture: Capture = {
-		[firstPlayer]: [],
-		[secondPlayer]: [],
+		[blackPlayer]: [],
+		[whitePlayer]: [],
 	};
 	const situations: Situation[] = [
 		{
 			board: [...board],
 			hands: null,
 			capture: {
-				[firstPlayer]: [...capture[firstPlayer]],
-				[secondPlayer]: [...capture[secondPlayer]],
+				[blackPlayer]: [...capture[blackPlayer]],
+				[whitePlayer]: [...capture[whitePlayer]],
 			},
 		}
 	];
+	const info: Info = {
+		black: '',
+		white: '',
+	};
 
 	for (const line of lines) {
 		const trimmed = line.trim();
+
+		// 先手後手の名前を取得
+		if (trimmed.startsWith('N+')) {
+			info.white = trimmed.slice(2);
+		}
+		if (trimmed.startsWith('N-')) {
+			info.black = trimmed.slice(2);
+		}
 
 		// 指し手（+7776FU など）だけ対象
 		const match = moverRegex.exec(trimmed);
@@ -31,7 +43,7 @@ export const parseCsa = (text: string): Situation[] => {
 
 		const [, player, from, to, piece] = match;
 		const hands: Hands = {
-			turn: player === '+' ? firstPlayer : secondPlayer,
+			turn: player === '+' ? blackPlayer : whitePlayer,
 			before: {
 				x: parseInt(from.slice(0, 1)),
 				y: parseInt(from.slice(1)),
@@ -56,7 +68,7 @@ export const parseCsa = (text: string): Situation[] => {
 		};
 		if (hands.before.x === 0 && hands.before.y === 0) {
 			// 打ち手
-			const tmp = capture[hands.turn].indexOf(hands.piece, -1);
+			const tmp = capture[hands.turn].indexOf(hands.piece);
 			if (tmp !== -1) {
 				capture[hands.turn].splice(tmp, 1);
 			}
@@ -69,13 +81,16 @@ export const parseCsa = (text: string): Situation[] => {
 			board: [...board],
 			hands,
 			capture: {
-				[firstPlayer]: [...capture[firstPlayer]],
-				[secondPlayer]: [...capture[secondPlayer]],
+				[blackPlayer]: [...capture[blackPlayer]],
+				[whitePlayer]: [...capture[whitePlayer]],
 			},
 		});
 	}
 
-	return situations;
+	return {
+		info,
+		situations,
+	};
 }
 
 export const printSituationHands = (hands: Hands | null): string => {
@@ -122,8 +137,8 @@ const sortPieceType = (a: PieceType, b: PieceType): number => {
 }
 
 const symbolTurnTypes = {
-	[firstPlayer]: '☗',
-	[secondPlayer]: '☖',
+	[blackPlayer]: '☗',
+	[whitePlayer]: '☖',
 }
 const fullWidthDigits = ["０", "１", "２", "３", "４", "５", "６", "７", "８", "９"];
 const kanjiDigits = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];

@@ -1,17 +1,17 @@
 import Piece from './piece';
 import styles from './board.module.scss';
-import { BoardData, Capture, firstPlayer, secondPlayer } from './utils/variable';
+import { BoardData, Capture, Info, blackPlayer, whitePlayer } from './utils/variable';
 
-export default function Board({ board, capture }: Readonly<{ board: BoardData, capture: Capture }>) {
+export default function Board({ board, capture, info }: Readonly<{ board: BoardData, capture: Capture, info: Info }>) {
   return (
     <div className={styles.container}>
       <div className={styles.container__second}>
         <div className={styles.stand}>
-          {capture[secondPlayer].map((type, index) => (
-            <Piece piece={{ type, player: secondPlayer }} key={`${secondPlayer.description}-${type.description}-${index}`} />
+          {capture[whitePlayer].map((type, index) => (
+            <Piece piece={{ type, player: whitePlayer }} key={`${whitePlayer.description}-${type.description}-${index}`} />
           ))}
         </div>
-        <div className={styles.player}>藤井聡太 竜王名人</div>
+        <div className={styles.player}>{info.white}</div>
       </div>
       <div className={styles.board}>
         <div className={styles.board__inner}>
@@ -24,11 +24,11 @@ export default function Board({ board, capture }: Readonly<{ board: BoardData, c
       </div>
       <div className={styles.container__first}>
         <div className={styles.stand}>
-          {capture[firstPlayer].map((type, index) => (
-            <Piece piece={{ type, player: firstPlayer }} key={`${firstPlayer.description}-${type.description}-${index}`} />
+          {capture[blackPlayer].map((type, index) => (
+            <Piece piece={{ type, player: blackPlayer }} key={`${blackPlayer.description}-${type.description}-${index}`} />
           ))}
         </div>
-        <div className={styles.player}>永瀬拓矢 九段</div>
+        <div className={styles.player}>{info.black}</div>
       </div>
     </div>
   );
