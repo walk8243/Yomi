@@ -1,18 +1,15 @@
 import Piece from './piece';
 import styles from './board.module.scss';
-import { BoardData, firstPlayer, fu, gin, hisha, kaku, keima, kin, kyosha, secondPlayer } from './utils/variable';
+import { BoardData, Capture, firstPlayer, secondPlayer } from './utils/variable';
 
-export default function Board({ board }: Readonly<{ board: BoardData }>) {
+export default function Board({ board, capture }: Readonly<{ board: BoardData, capture: Capture }>) {
   return (
     <div className={styles.container}>
       <div className={styles.container__second}>
         <div className={styles.stand}>
-          <Piece piece={{ type: hisha, player: secondPlayer }} />
-          <Piece piece={{ type: kaku, player: secondPlayer }} />
-          <Piece piece={{ type: kyosha, player: secondPlayer }} />
-          <Piece piece={{ type: fu, player: secondPlayer }} />
-          <Piece piece={{ type: fu, player: secondPlayer }} />
-          <Piece piece={{ type: fu, player: secondPlayer }} />
+          {capture[secondPlayer].map((type, index) => (
+            <Piece piece={{ type, player: secondPlayer }} key={`${secondPlayer.description}-${type.description}-${index}`} />
+          ))}
         </div>
         <div className={styles.player}>藤井聡太 竜王名人</div>
       </div>
@@ -27,12 +24,9 @@ export default function Board({ board }: Readonly<{ board: BoardData }>) {
       </div>
       <div className={styles.container__first}>
         <div className={styles.stand}>
-          <Piece piece={{ type: kin, player: firstPlayer }} />
-          <Piece piece={{ type: kin, player: firstPlayer }} />
-          <Piece piece={{ type: gin, player: firstPlayer }} />
-          <Piece piece={{ type: keima, player: firstPlayer }} />
-          <Piece piece={{ type: keima, player: firstPlayer }} />
-          <Piece piece={{ type: fu, player: firstPlayer }} />
+          {capture[firstPlayer].map((type, index) => (
+            <Piece piece={{ type, player: firstPlayer }} key={`${firstPlayer.description}-${type.description}-${index}`} />
+          ))}
         </div>
         <div className={styles.player}>永瀬拓矢 九段</div>
       </div>

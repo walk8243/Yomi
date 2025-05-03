@@ -37,9 +37,14 @@ export type Hands = {
 	after: Spot;
 	piece: PieceType;
 };
+export type Capture = {
+	[firstPlayer]: PieceType[];
+	[secondPlayer]: PieceType[];
+};
 
 export interface Situation {
 	board: BoardData;
 	hands: Hands | null;
+	capture: Capture;
 }
 

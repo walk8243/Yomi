@@ -9,7 +9,7 @@ export default function Gui({ kif }: Readonly<{ kif: Situation[] }>) {
 
   return (
     <div className={styles.container}>
-      <Board board={kif[selected].board} />
+      <Board board={kif[selected].board} capture={kif[selected].capture} />
       <ul className={styles.list}>
         {kif.map((situation, index) => (
           <li className={`${styles.item} ${selected === index ? styles['item--selected'] : ''}`}

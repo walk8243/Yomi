@@ -1,14 +1,22 @@
 import { initial } from "./situation";
-import { firstPlayer, fu, gin, gyoku, keima, kaku, kin, PieceType, secondPlayer, Situation, hisha, tokin, narikyo, narikei, uma, kyosha, ryu, Hands, Spot, narigin } from "./variable";
+import { firstPlayer, fu, gin, gyoku, keima, kaku, kin, PieceType, secondPlayer, Situation, hisha, tokin, narikyo, narikei, uma, kyosha, ryu, Hands, Spot, narigin, Capture } from "./variable";
 
 const moverRegex = /^([+-])(\d{2})(\d{2})([A-Z]{2})$/;
 export const parseCsa = (text: string): Situation[] => {
 	const lines = text.split(/\r?\n/);
 	const board = initial();
+	const capture: Capture = {
+		[firstPlayer]: [],
+		[secondPlayer]: [],
+	};
 	const situations: Situation[] = [
 		{
 			board: [...board],
 			hands: null,
+			capture: {
+				[firstPlayer]: [...capture[firstPlayer]],
+				[secondPlayer]: [...capture[secondPlayer]],
+			},
 		}
 	];
 
@@ -34,19 +42,37 @@ export const parseCsa = (text: string): Situation[] => {
 			},
 			piece: parsePieceType(piece),
 		};
-		board[calcIndex(hands.after)] = {
+
+		// boardに記録
+		const index = calcIndex(hands.after)
+		if (board[index]) {
+			// 取った駒を記録
+			capture[hands.turn].push(convertOrigin(board[index].type));
+			capture[hands.turn].sort(sortPieceType);
+		}
+		board[index] = {
 			type: hands.piece,
 			player: hands.turn,
 		};
 		if (hands.before.x === 0 && hands.before.y === 0) {
 			// 打ち手
+			console.log(situations.length, hands, capture[hands.turn]);
+			const tmp = capture[hands.turn].indexOf(hands.piece, -1);
+			if (tmp !== -1) {
+				capture[hands.turn].splice(tmp, 1);
+			}
 		} else {
+			// 移動手
 			board[calcIndex(hands.before)] = null;
 		}
 
 		situations.push({
 			board: [...board],
 			hands,
+			capture: {
+				[firstPlayer]: [...capture[firstPlayer]],
+				[secondPlayer]: [...capture[secondPlayer]],
+			},
 		});
 	}
 
@@ -81,6 +107,20 @@ const parsePieceType = (text: string): PieceType => {
 		default: throw new Error(`Unknown piece type: ${text}`);
 	}
 }
+const convertOrigin = (piece: PieceType): PieceType => {
+	switch(piece) {
+		case tokin: return fu;
+		case narikyo: return kyosha;
+		case narikei: return keima;
+		case narigin: return gin;
+		case uma: return kaku;
+		case ryu: return hisha;
+		default: return piece;
+	}
+}
+const sortPieceType = (a: PieceType, b: PieceType): number => {
+	return pieceTypeOrder.indexOf(b) - pieceTypeOrder.indexOf(a);
+}
 
 const symbolTurnTypes = {
 	[firstPlayer]: '☗',
@@ -104,3 +144,7 @@ const kanjiPieceTypes = {
 	[ryu]: "龍",
 	[gyoku]: "玉",
 };
+
+const pieceTypeOrder = [
+	fu, kyosha, keima, gin, kin, kaku, hisha, tokin, narikyo, narikei, narigin, uma, ryu, gyoku,
+];
