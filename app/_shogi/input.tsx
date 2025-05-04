@@ -1,23 +1,24 @@
 import { ChangeEvent, Dispatch, useRef, useState } from "react";
-import { csaUrl } from './kif/floodgate';
 import styles from './input.module.scss';
 
 export default function Input({ dispatch }: Readonly<{ dispatch: Dispatch<InputDataType> }>) {
-  const [type, setType] = useState<InputDataType['type']>('floodgate');
-  const floodgateUrlRef = useRef<HTMLInputElement>(null);
+  const [type, setType] = useState<InputDataType['type']>('yomi');
   const yomiRef = useRef<HTMLSelectElement>(null);
-
+  const localFileRef = useRef<HTMLInputElement>(null);
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if (value !== 'floodgate' && value !== 'yomi') return;
+    if (value !== 'yomi' && value !== 'local') return;
     setType(value);
   };
   const handleSubmit = () => {
-    if (type === 'floodgate' && floodgateUrlRef.current) {
-      dispatch({ type: 'floodgate', url: floodgateUrlRef.current.value });
-    }
     if (type === 'yomi' && yomiRef.current) {
       dispatch({ type: 'yomi', id: yomiRef.current.value });
+    }
+    if (type === 'local' && localFileRef.current) {
+      const file = localFileRef.current.files?.[0];
+      if (file) {
+        dispatch({ type: 'local', file });
+      }
     }
   };
 
@@ -25,22 +26,22 @@ export default function Input({ dispatch }: Readonly<{ dispatch: Dispatch<InputD
     <section className={styles.container}>
       <div className={styles.type}>
         <select value={type} onChange={handleChange}>
-          <option value='floodgate'>floodgate</option>
           <option value='yomi'>Yomi</option>
+          <option value='local'>local</option>
         </select>
       </div>
       <div className={styles.input}>
-        <input type="text"
-          hidden={type !== 'floodgate'}
-          placeholder={csaUrl}
-          ref={floodgateUrlRef}
-        />
         <select
           hidden={type !== 'yomi'}
           ref={yomiRef}
         >
           <option value="1">2025.04.09 第83期名人戦 藤井聡太名人 vs 永瀬拓矢九段</option>
         </select>
+        <input type="file"
+          hidden={type !== 'local'}
+          ref={localFileRef}
+          accept=".csa"
+        />
       </div>
       <div className={styles.action}>
         <button onClick={handleSubmit}>読み込む</button>
@@ -49,12 +50,12 @@ export default function Input({ dispatch }: Readonly<{ dispatch: Dispatch<InputD
   )
 }
 
-type FloodgateInputData = {
-  type: 'floodgate',
-  url: string,
-}
 type YomiInputData = {
   type: 'yomi',
   id: string,
 }
-export type InputDataType = FloodgateInputData | YomiInputData;
+type LocalInputData = {
+  type: 'local',
+  file: File,
+}
+export type InputDataType = YomiInputData | LocalInputData;
