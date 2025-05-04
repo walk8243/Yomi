@@ -1,8 +1,16 @@
 import type { NextConfig } from "next";
+import { PHASE_DEVELOPMENT_SERVER } from "next/dist/shared/lib/constants";
 
-const nextConfig: NextConfig = {
-  output: 'export',
-  devIndicators: false,
+const nextConfig = (phase: string, { defaultConfig }: { defaultConfig: NextConfig }): NextConfig => {
+  const development: { output?: 'export' } = phase === PHASE_DEVELOPMENT_SERVER ? {} : {
+    output: 'export',
+  };
+
+  return {
+    ...defaultConfig,
+    ...development,
+    devIndicators: false,
+  }
 };
 
 export default nextConfig;
