@@ -1,20 +1,20 @@
 import Image from 'next/image';
 import styles from './page.module.scss';
+import appImage from './yomi.png';
 
 export default function Template({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
+        <h1 hidden>よみ</h1>
         <Image
           className={styles.logo}
-          src="/yomi.png"
+          src={appImage}
           alt="Yomi icon"
           width={100}
           height={97}
           priority
         />
-
-        <h1>よみ</h1>
       </header>
       <main className={styles.main}>
         {children}

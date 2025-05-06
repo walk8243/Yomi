@@ -10,6 +10,9 @@ const nextConfig = (phase: string, { defaultConfig }: { defaultConfig: NextConfi
     ...defaultConfig,
     ...development,
     devIndicators: false,
+    images: {
+      unoptimized: true,
+    },
   }
 };
 
