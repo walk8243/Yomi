@@ -73,11 +73,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Create env file
         run: |
-          echo $GITHUB_REPOSITORY
-          echo $GITHUB_REPOSITORY_OWNER
-          echo "${GITHUB_REPOSITORY#${GITHUB_REPOSITORY_OWNER}}" >> .env.local
-      - name: Check env file
-        run: cat .env.local
+          echo "NEXT_PUBLIC_BASE_PATH=${GITHUB_REPOSITORY#${GITHUB_REPOSITORY_OWNER}}" >> .env.local
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
