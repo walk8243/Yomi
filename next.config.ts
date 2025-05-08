@@ -13,8 +13,6 @@ const nextConfig = (phase: string, { defaultConfig }: { defaultConfig: NextConfi
     images: {
       unoptimized: true,
     },
-    assetPrefix: process.env.ASSET_PREFIX,
-    basePath: process.env.BASE_PATH,
   }
 };
 
